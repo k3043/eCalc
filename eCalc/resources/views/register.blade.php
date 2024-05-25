@@ -14,8 +14,6 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-   
-    <form action="/register" method="post">
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -24,7 +22,9 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
+    <form action="/register" method="post">
+    
     @csrf
         <h3>Register</h3>
         <label for="username">Username</label>
