@@ -1,0 +1,228 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background-image: url('https://i.pinimg.com/originals/18/a0/ec/18a0ec3c00be8cfc0bed28a7c1600929.jpg');
+    background-repeat: no-repeat; /* Không lặp lại hình nền */
+    background-size: cover;
+}
+.err{
+    text-align: center;
+    color: white;
+    padding: 10px 0px;
+    background-color: rgb(193, 69, 69);
+}
+p{
+    width: fit-content;
+}
+.header{
+    width: 100%;
+    background-color: rgba(69, 70, 70, 0.614);
+    margin-bottom: 30px;
+}
+.header-top{
+    padding: 30px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-bottom{
+    background-color: rgba(119, 187, 187, 0.796);
+    padding: 15px 0px;
+    display: flex;
+    justify-content: center;   
+    border-radius: 30px;
+    margin: 0px 10px;
+}
+.header-bottom a{
+    color: white;
+    font-weight: bold;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    
+}
+.header-bottom a:hover{
+    transition: 0.4s;
+    color: rgb(217, 96, 137);
+}
+.logo{
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+.logo i{
+    color: rgb(156, 236, 237);
+    font-size: 80px;
+}
+.logo p{
+    font-size: 65px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+.log i{
+    font-size: 30px;
+    margin-left: 20px;
+    color: rgb(254, 254, 254);
+}
+.avatar{
+    width: 50px;
+    height: 50px;
+    background-color: rgb(196, 254, 255);
+    border-radius: 30px;
+    border: 2px solid white;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: palevioletred;
+}
+.title1{
+    margin: auto;
+    margin-bottom: 50px;
+}
+.wrap-user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+.container{
+    background-color: rgba(240, 248, 255, 0.579);
+    padding: 30px 50px;
+    width: fit-content;
+    min-width: 500px;
+    margin: auto;
+    box-shadow: 10px grey;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+.wrap1{
+    padding: 20px 40px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    width: fit-content;
+    border-radius: 20px;
+}
+.cost-title{
+    margin: auto;
+    padding-bottom: 20px;
+    font-size: 25px;
+}
+.label1{
+    margin-top: 20px;
+    display: flex;
+}
+.kwh{
+    width: 130px;
+    background-color: transparent;
+    margin: 0px 20px;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    text-align: center;
+}
+.mform{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.calc-btn{
+    margin-top: 50px;
+    width: fit-content;
+    padding: 10px 40px;
+    border-radius: 10px;
+    background-color: aquamarine;
+    cursor: pointer;
+    transition: 0.4s;
+    border: none;
+}
+.calc-btn:hover{
+    transition: 0.4s;
+    background-color: aqua;
+}
+.result{
+    margin: 50px 0px 30px;
+}
+.main-title{
+    color: rgb(183, 48, 93);
+    font-weight: bold;
+}
+.result-tbl{
+    border-radius: 10px;
+    padding: 10px;
+    background-color: white;
+    width: 600px;
+    min-width: 300px;
+}
+.td1{
+    text-align: start;
+}
+td {
+    text-align: center;
+    padding: 5px 10px;
+}
+.final{
+    margin: 30px 0px 20px;
+}
+.wrap2{
+    display: flex;
+}
+.wrap2 p{
+    margin: 5px 0px;
+}
+.right{
+    margin-left: 50px;
+}
+.search-form{
+    width: fit-content;
+    margin: auto;
+    margin-top: 30px;
+}
+.search{
+    padding: 0px 15px;
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 30px;
+}
+.search-btn{
+    border-radius: 30px;
+    padding: 10px 12px;
+    border: none;
+    background-color: aquamarine;
+}
+.search-btn i{
+    font-size: 20px;
+}
+.search-btn:hover{
+    background-color: rgb(127, 197, 255);
+}
+.alert {
+    padding: 15px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    margin-bottom: 15px;}
+
+.bill-btn{
+    margin-top: 20px;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(131, 180, 218);
+}
+.bill-inactive{
+    background-color: grey;
+}
+.innertext{
+    color: black;
+    line-height: 35px;
+}
