@@ -112,4 +112,36 @@ class calcController extends Controller
         // Or return JSON response (for API)
         // return response()->json($bills);
     }
+    public static function caculate($kWh){
+        $l1 = $l2 = $l3 = $l4 = $l5 = $l6 = $cost = $total = $tax = 0;
+        $ecost = Ecost::latest()->first();
+        $c1 = $ecost->c1; $c2 =$ecost->c2; $c3 =$ecost->c3; $c4 =$ecost->c4; $c5 = $ecost->c5; $c6 = $ecost->c6;
+        if ($kWh <= 50) {
+            $l1 = $kWh;
+        } elseif ($kWh <= 100) {
+            $l1 = 50;
+            $l2 = $kWh - 50;
+        } elseif ($kWh <= 200) {
+            $l1 = $l2 = 50;
+            $l3 = $kWh - 100;
+        } elseif ($kWh <= 300) {
+            $l1 = $l2 = 50;
+            $l3 = 100;
+            $l4 = $kWh - 200;
+        } elseif ($kWh <= 400) {
+            $l1 = $l2 = 50;
+            $l3 = $l4 = 100;
+            $l5 = $kWh - 300;
+        } else {
+            $l1 = $l2 = 50;
+            $l3 = $l4 = $l5 = 100;
+            $l6 = $kWh - 400;
+        }
+
+        $cost = $l1 * $c1 + $l2 * $c2 + $l3 * $c3 + $l4 * $c4 + $l5 * $c5 + $l6 * $c6;
+        $tax = $cost * 1.1;
+        $total = round($tax, 3);
+
+        return $total;
+    }
 }

@@ -155,11 +155,31 @@ form{
 }
 .ecost-tbl td,th {
   font-size: 20px;
-  text-align: center;
+  text-align: start;
 }
 .ein{
   padding: 10px 20px;
   font-size: 18px;
   border-radius: 10px;
   text-align: center;
+}
+.ok{
+  text-align: center;
+  background-color: rgb(104, 221, 104);
+  color: white;
+
+  border-radius: 30px;
+}
+.not{
+  text-align: center;
+  background-color: rgb(183, 76, 64);
+  color: white;
+  border-radius: 30px;
+}
+.twobtn{
+  display: flex;
+}
+.btn2{
+  width: 300px;
+  margin: 20px;
 }

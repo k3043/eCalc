@@ -9,4 +9,11 @@ class Bill extends Model
 {
     protected $table = 'bills';
     use HasFactory;
+    protected $fillable = [
+        'uid',
+        'month',
+        'kwh_used',
+        'amount',
+        'status'
+    ];
 }

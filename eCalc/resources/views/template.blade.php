@@ -28,7 +28,7 @@
                     <p class="username">{{Auth::user()->name}}</p>        
                     <a class="log" href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                 @else
-                    <a href="/login">Login</a>     
+                    <a href="/login" style="color:white">Login</a>     
                     <a href="/login" class="log"><i class="fa-solid fa-right-to-bracket"></i></a>
                 @endif
             </div>

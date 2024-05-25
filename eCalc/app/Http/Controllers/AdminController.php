@@ -10,6 +10,8 @@ use App\Models\EConsumption;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Controllers\calcController;
+use  Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -90,5 +92,52 @@ class AdminController extends Controller
         $ecost->c6 =  $request->input('c6');
         $ecost->save();
         return redirect('/showcost');
+    }
+
+    public function showbill(){
+            $users =  DB::table('users')
+            ->join('bills', 'users.id', '=', 'bills.uid')
+            ->select('users.*', 'bills.amount','bills.kwh_used as used','status')
+            // ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
+            ->get();
+        return view('bill',compact('users'));
+    }
+    public function closebill(){
+        $users = User::whereNotNull('cus_code')->get();
+        foreach($users as $user){
+            $econ = EConsumption::where('uid',$user->id)->latest()->first();
+            $used = $econ->econ;
+            Bill::updateOrCreate(
+                ['uid'=>$user->id],
+                [   
+                    'uid' => $user->id,
+                    'month'=> Carbon::now()->toDateString(),
+                    'kwh_used'=> $used,
+                    'amount'=> calcController::caculate($used),
+                    'status'=> 'chờ thanh toán',
+                ]
+            );
+            $econ->econ = 0;
+            $econ->save();
+        }
+        return redirect('/bill');
+    }
+    public function noti(){
+        $users =  DB::table('users')
+            ->join('bills', 'users.id', '=', 'bills.uid')
+            ->select('users.*')
+            ->where('status','=','chờ thanh toán')
+            ->get();
+
+        foreach($users as $user){
+            $bill = $latestBill = Bill::where('uid', $user->id)->latest('updated_at')->first();
+            $mail = $user->email;
+            Mail::send('mail',compact('user','bill'),function($email) use ($mail){
+                $email->to($mail);
+                $title = "Thanh toán hóa đơn điện tháng " . date('m');
+                $email->subject($title);
+            });
+        }
+        return redirect('/bill');
     }
 }

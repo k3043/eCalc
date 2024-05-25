@@ -48,7 +48,7 @@
               </a>
             </li>
             <li class="list">
-              <a href="#" class="nav-link">
+              <a href="/bill" class="nav-link">
                 <i class='bx bx-money-withdraw icon' ></i>
                 <span class="link">Hóa đơn</span>
               </a>

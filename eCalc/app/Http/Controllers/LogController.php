@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EConsumption;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use  Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 class LogController extends Controller
 {
     public function login(Request $request){
@@ -51,9 +53,14 @@ class LogController extends Controller
             $user->save();
             $code = $user->cus_code;
             $name = $user->name;
+            $ec = new EConsumption();
+            $ec->uid = $user->id;
+            $ec->econ = 0;
+            $ec->period = Carbon::now()->startOfMonth()->toDateString();
+            $ec->save();
             Mail::send('successCreateMail',compact('name','code'),function($email)use ($user) {
                 $email->to($user->email);
-                $email->subject('Khánh gửi mail bằng Laravel');
+                $email->subject('Tạo tài khoản Ebill thành công!');
             });
             // Đăng nhập người dùng mới
             Auth::login($user);

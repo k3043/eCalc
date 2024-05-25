@@ -38,3 +38,6 @@ Route::get('kwh',[AdminController::class,'showcuskwh']);
 Route::post('updatekwh',[AdminController::class,'updatekwh']);
 Route::get('showcost',[AdminController::class,'showcost']);
 Route::post('updatecost',[AdminController::class,'updatecost']);
+Route::get('bill',[AdminController::class,'showbill']);
+Route::get('closebill',[AdminController::class,'closebill']);
+Route::get('noti',[AdminController::class,'noti']);
