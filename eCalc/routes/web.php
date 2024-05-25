@@ -36,5 +36,5 @@ Route::get('changerole',[AdminController::class,'changerole']);
 Route::get('deletecus',[AdminController::class,'deletecus']);
 Route::get('kwh',[AdminController::class,'showcuskwh']);
 Route::post('updatekwh',[AdminController::class,'updatekwh']);
-Route::get('cost',[AdminController::class,'showcost']);
+Route::get('showcost',[AdminController::class,'showcost']);
 Route::post('updatecost',[AdminController::class,'updatecost']);

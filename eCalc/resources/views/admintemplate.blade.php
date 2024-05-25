@@ -42,7 +42,7 @@
               </a>
             </li>
             <li class="list">
-              <a href="/cost" class="nav-link">
+              <a href="/showcost" class="nav-link">
                 <i class='bx bx-purchase-tag-alt icon' ></i>
                 <span class="link">Cập nhật giá điện</span>
               </a>

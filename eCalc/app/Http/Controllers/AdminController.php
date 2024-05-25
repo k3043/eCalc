@@ -89,6 +89,6 @@ class AdminController extends Controller
         $ecost->c5 =  $request->input('c5');
         $ecost->c6 =  $request->input('c6');
         $ecost->save();
-        return redirect('/cost');
+        return redirect('/showcost');
     }
 }

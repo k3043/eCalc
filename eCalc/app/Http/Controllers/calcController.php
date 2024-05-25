@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Bill;
 use App\Models\Payment;
-use App\Models\ECost;
+use App\Models\Ecost;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use  Illuminate\Support\Facades\Mail;
@@ -62,7 +62,7 @@ class calcController extends Controller
         $querry = $request->input('querry');
         $re = DB::table('users')
         ->join('eConsumptions', 'users.id', '=', 'eConsumptions.uid')
-        ->select('users.name as name','users.cus_code as code', 'eConsumptions.econ as econ', 'eConsumptions.update_at as at')
+        ->select('users.name as name','users.cus_code as code', 'eConsumptions.econ as econ', 'eConsumptions.updated_at as at')
         ->where('cus_Code','=',$querry)
         ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
         // ->where('year','=',date('Y'))

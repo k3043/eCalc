@@ -21,7 +21,7 @@ class LogController extends Controller
 
     if (Auth::attempt($credentials)) {
         if($user->role == 'admin')
-            return view('admin_cus');
+            return redirect('/customer');
         else return redirect('/calc');
     }
     } else {
