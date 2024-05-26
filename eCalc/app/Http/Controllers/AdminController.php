@@ -16,7 +16,7 @@ class AdminController extends Controller
 {
     public function customer(){
         if (Auth::check()) {
-            $users = User::whereNotNull('cus_code')->get();
+            $users = User::where('role','user')->get();
             return view('admin_cus',compact('users'));
         } else {
             return redirect('/login'); 
@@ -26,14 +26,11 @@ class AdminController extends Controller
         $uid = $request->query('uid');
         $user = User::find($uid);
         if ($user) { 
-            $bill = Bill::find($uid);
-            $econ = EConsumption::where('uid',$uid);
-            
-           
-            
+            $bills = Bill::where('uid', $uid);
+            $econ = EConsumption::where('uid',$uid); 
             if($econ) $econ->delete();
-            if($bill){
-                $bill->delete();
+            if($bills){
+                $bills->delete();
             }
             $user->delete();
             return redirect()->back()->with('success', 'User deleted successfully');
@@ -45,7 +42,6 @@ class AdminController extends Controller
         $user = User::find($uid);
         if ($user) {
             $user->role = "admin";
-            $user->cus_code = null;
             $user->save();
             return redirect()->back()->with('success', 'change role successfully');
         }

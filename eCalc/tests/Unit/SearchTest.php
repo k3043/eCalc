@@ -8,12 +8,6 @@ use App\Http\Controllers\calcController;
 
 class SearchTest extends TestCase
 {
-    public function testShowCost()
-    {
-        $response = $this->get('/showcost');
-        $response->assertStatus(200);
-    }
-
     public function testSearch_NhapDungThongTin()
     {
         $response = $this->post('/search', ['querry' => 'KH00004']);
@@ -26,11 +20,15 @@ class SearchTest extends TestCase
     {
         $response = $this->post('/search', ['querry' => 'KH11111']);
         $response->assertViewHas('result', null);
+        $this->followingRedirects()->get('/search')
+        ->assertSee('Không có thông tin!');   
     }
     public function testSearch_BoTrongMaKhachHang()
     {
         $response = $this->post('/search', ['querry' => '']);
         $response->assertViewHas('result', null);
+        $this->followingRedirects()->get('/search')
+        ->assertSee('Không có thông tin!');   
     }
 
 }

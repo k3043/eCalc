@@ -15,7 +15,7 @@ class SignUpTest extends TestCase
     {
         //xóa các thông tin liên quan trước khi thêm mới người dùng
         $user =  User::where('email', 'test@gmail.com')->first();
-        EConsumption::where('uid', $user->id)->delete();
+        if($user)EConsumption::where('uid', $user->id)->delete();
         User::where('email', 'test@gmail.com')->delete();
 
 

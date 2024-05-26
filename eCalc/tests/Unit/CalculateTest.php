@@ -84,10 +84,11 @@ class CalculateTest extends TestCase
         ->assertSee('must be at least 0');      
     }
 
-    public function testShowCost()
+    public function testCalculateEmptyKwh()
     {
-        $response = $this->get('/showcost');
-        $response->assertStatus(200);
+    $response = $this->post('/calc', ['kWh' => null]);
+    $this->followingRedirects()->get('/calc')
+        ->assertSee('required');      
     }
-
+    
 }
