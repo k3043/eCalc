@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Bill;
-use App\Models\Payment;
 use App\Models\Ecost;
 use App\Models\EConsumption;
 use Illuminate\Support\Facades\DB;
@@ -34,8 +33,6 @@ class AdminController extends Controller
             
             if($econ) $econ->delete();
             if($bill){
-                $payment = Payment::find($bill->id);
-                if($payment) $payment->delete();
                 $bill->delete();
             }
             $user->delete();

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use  Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use Spatie\FlareClient\View;
+
 class calcController extends Controller
 {
     public function index(){
@@ -49,13 +51,14 @@ class calcController extends Controller
         }
 
         $cost = $l1 * $c1 + $l2 * $c2 + $l3 * $c3 + $l4 * $c4 + $l5 * $c5 + $l6 * $c6;
-        $tax = $cost * 1.1;
-        $total = round($tax, 3);
+        $tax = $cost * 0.1;
+        $total = round($tax + $cost, 3);
 
         return view('calc', compact('kWh','total', 'cost','tax','l1','l2','l3','l4','l5','l6','c1','c2','c3','c4','c5','c6'));
     }
     public function showcost(){
-        $c1 = 1678; $c2 =1734; $c3 =2014; $c4 =2536; $c5 = 2834; $c6 = 2927;
+        $ecost = Ecost::latest()->first();
+        $c1 = $ecost->c1; $c2 =$ecost->c2; $c3 =$ecost->c3; $c4 =$ecost->c4; $c5 = $ecost->c5; $c6 = $ecost->c6;
         return view('cost',compact('c1','c2','c3','c4','c5','c6'));
     }
     public function search(Request $request){
@@ -67,11 +70,6 @@ class calcController extends Controller
         ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
         // ->where('year','=',date('Y'))
         ->first();
-
-            // ->where('uid', '=', $querry)
-            // ->where('month', '=', 4)
-            // ->value('econ','');
-        // $result = $re == null? 'không tìm thấy thông tin phù hợp': $re;
         $result = $re;
         return view('search', compact('result'));
     }
@@ -93,7 +91,7 @@ class calcController extends Controller
             $bill = $latestBill = Bill::where('uid', $user->id)->latest('updated_at')->first();
             return view('pay', compact('bill','user'));
         } else {
-            return redirect('/login'); 
+            return view('login'); 
         }
     }
     public function showBill()

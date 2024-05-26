@@ -13,7 +13,18 @@ use  Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 class LogController extends Controller
 {
+    
     public function login(Request $request){
+        $validator = Validator::make($request->input(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+        if ($validator->fails()) {
+            return redirect('/login')
+                        ->withErrors($validator)
+                        ->withInput();
+        }  
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
@@ -28,7 +39,9 @@ class LogController extends Controller
     }
     } else {
         // Đăng nhập không thành công
-        return redirect('/login');
+        $err = 'Invalid login informations';
+        return redirect('/login')->withErrors($err)
+                                ->withInput();;
         }
     }
 
