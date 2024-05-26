@@ -16,7 +16,6 @@ class LogController extends Controller
     
     public function login(Request $request){
         $validator = Validator::make($request->input(), [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
@@ -24,7 +23,6 @@ class LogController extends Controller
             return redirect('/login')
                         ->withErrors($validator)
                         ->withInput();
-        }  
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
@@ -44,6 +42,7 @@ class LogController extends Controller
                                 ->withInput();;
         }
     }
+}
 
     public function register(Request $request){
         $validator = Validator::make($request->input(), [
