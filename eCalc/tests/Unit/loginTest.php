@@ -22,7 +22,7 @@ class Logintest extends TestCase
         $response = $this->post('/login', ['email' => 'xuankhanh3043@gmail.com','password'=>'12345677']);
         $response->assertRedirect('/login');
         $this->followingRedirects()
-             ->get('/login')->assertSee('Thông tin đăng nhập không hợp lệ');
+             ->get('/login')->assertSee('Invalid login informations');
     }
     public function testLoginFailedBecauseOfEmailEmpty()
     {
