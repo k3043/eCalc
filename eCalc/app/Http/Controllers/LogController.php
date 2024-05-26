@@ -20,9 +20,9 @@ class LogController extends Controller
             'password' => 'required|string|min:8',
         ]);
         if ($validator->fails()) {
-            return redirect('/login')
-                        ->withErrors($validator)
-                        ->withInput();
+            return redirect('/login')->withErrors($validator);
+        }
+                        
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
@@ -30,19 +30,19 @@ class LogController extends Controller
     if ($user && Hash::check($password, $user->password) ) {
         $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials)) {
-        if($user->role == 'admin')
-            return redirect('/customer');
-        else return redirect('/calc');
-    }
+        if (Auth::attempt($credentials)) {
+            if($user->role == 'admin')
+                return redirect('/customer');
+            else return redirect('/calc');
+        }
     } else {
         // Đăng nhập không thành công
         $err = 'Invalid login informations';
-        return redirect('/login')->withErrors($err)
-                                ->withInput();;
+        return redirect('/login')->withErrors($err);
+                            
         }
+   
     }
-}
 
     public function register(Request $request){
         $validator = Validator::make($request->input(), [
