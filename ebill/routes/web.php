@@ -16,8 +16,10 @@ Route::get('search', function () {
     return view('search');
 });
 Route::get('login', function () {
-    return view('login')->name('login');
+    return view('login');
 });
+Route::post('login',[LogController::class,'login']);
+
 Route::get('pay', [calcController::class,'showpay']);
 Route::get('paybill', [calcController::class,'pay']);
 Route::post('calc',[calcController::class,'calc']);

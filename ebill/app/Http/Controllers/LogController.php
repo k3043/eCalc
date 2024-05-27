@@ -21,7 +21,7 @@ class LogController extends Controller
             'password' => 'required|string|min:8',
         ]);
         if ($validator->fails()) {
-            return redirect('login')->withErrors($validator);
+            return redirect('/login')->withErrors($validator);
         }
                         
         $email = $request->input('email');

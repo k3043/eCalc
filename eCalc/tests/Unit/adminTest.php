@@ -38,11 +38,16 @@ class AdminTest extends TestCase
     public function test_deletes_a_customer()
     {
         $user = User::factory()->create();
+       
+        // $ec = EConsumption::where('uid',$user->id)->first();
+        // if($ec){$ec->econ = 100;
+        // $ec->save();}
+        
         $econ = EConsumption::factory()->create(['uid' => $user->id]);
         $bill = Bill::factory()->create(['uid' => $user->id]);
 
         $response = $this->actingAs($this->user)->get('/deletecus?uid=' . $user->id);
-        // $response->assertRedirect('/customer');
+        //$response->assertRedirect('/customer');
         // $response->assertStatus(200);
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
         $this->assertDatabaseMissing('eConsumptions', ['uid' => $user->id]);
