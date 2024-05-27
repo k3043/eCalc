@@ -10,10 +10,10 @@ class SearchTest extends TestCase
 {
     public function testSearch_NhapDungThongTin()
     {
-        $response = $this->post('/search', ['querry' => 'KH00004']);
+        $response = $this->post('/search', ['querry' => 'KH00017']);
         $response->assertViewHas('result', function ($result) {
-            $user = User::where('cus_code','KH00004')->first();
-            return $result->code === 'KH00004' && $result->name == $user->name;
+            $user = User::where('cus_code','KH00017')->first();
+            return $result->code === 'KH00017' && $result->name == $user->name;
         });
     }
     public function testSearch_MaKhachHangKhongHopLe()

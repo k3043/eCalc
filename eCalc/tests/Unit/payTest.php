@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class PayFunctionTest extends TestCase
+class PayTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_pay_function()
     {
         // Tạo user giả
@@ -22,7 +20,7 @@ class PayFunctionTest extends TestCase
         // Tạo bill giả
         $bill = Bill::factory()->create([
             'uid' => $user->id,
-            'status' => 'chưa thanh toán',
+            'status' => 'chờ thanh toán',
         ]);
         
         // Mock Auth::user() để trả về user giả

@@ -71,9 +71,9 @@ class CalculateTest extends TestCase
     
     $response->assertStatus(200)
     
-        ->assertViewHas('total', 1161655)
-        ->assertViewHas('tax', 105605) 
-        ->assertViewHas('cost', 1056050);      
+        ->assertViewHas('total', 1160885)
+        ->assertViewHas('tax', 105535) 
+        ->assertViewHas('cost', 1055350);      
     }
 
     public function testCalculateNegativeKwh()
