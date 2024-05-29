@@ -16,10 +16,20 @@ class LogController extends Controller
 {
     
     public function login(Request $request){
+        $messages = [
+            'email.required' => 'Không được để trống email',
+            'email.string' => 'Email phải là chuỗi ký tự',
+            'email.email' => 'Email phải đúng định dạng',
+            'email.max' => 'Email không được vượt quá 255 ký tự',
+            'password.required' => 'Không được để trống mật khẩu',
+            'password.string' => 'Mật khẩu phải là chuỗi ký tự',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+        ];
         $validator = Validator::make($request->input(), [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
-        ]);
+        ],$messages);
+        
         if ($validator->fails()) {
             return redirect('login')->withErrors($validator);
         }
@@ -38,7 +48,7 @@ class LogController extends Controller
         }
     } else {
         // Đăng nhập không thành công
-        $err = 'Invalid login informations';
+        $err = 'Thông tin đăng nhập không hợp lệ';
         return redirect('/login')->withErrors($err);
                             
         }
@@ -46,11 +56,25 @@ class LogController extends Controller
     }
 
     public function register(Request $request){
+        $messages = [
+            'name.required' => 'Tên không được để trống',
+            'name.string' => 'Tên phải là chuỗi ký tự',
+            'name.max' => 'Tên không được vượt quá 255 ký tự',
+            'email.required' => 'Email không được để trống',
+            'email.string' => 'Email phải là chuỗi ký tự',
+            'email.email' => 'Email phải đúng định dạng',
+            'email.max' => 'Email không được vượt quá 255 ký tự',
+            'email.unique' => 'Email đã tồn tại',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.string' => 'Mật khẩu phải là chuỗi ký tự',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp',
+        ];
         $validator = Validator::make($request->input(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-        ]);
+        ],$messages);
         
         if ($validator->fails()) {
             return redirect('register')

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\calcController;
+use Illuminate\Support\Facades\Validator;
 use  Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
@@ -49,7 +50,7 @@ class AdminController extends Controller
     }
     public function showcuskwh(){
         if (Auth::check()) {
-            $users = DB::table('users')
+            $users = User::where('role','user')
             ->join('eConsumptions', 'users.id', '=', 'eConsumptions.uid')
             ->select('users.*', 'eConsumptions.econ as econ','eConsumptions.period as period')
             // ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
@@ -61,6 +62,21 @@ class AdminController extends Controller
         }
     }
     public function updatekwh(Request $request){
+        $users = User::where('role','user')->get();
+        $rules = [];
+        $messages = [];
+
+        foreach ($users as $user) {
+            $rules["kwh.{$user->id}"] = 'required|numeric|min:0';
+            $messages["kwh.{$user->id}.required"] = "Số điện của người dùng {$user->name} không được để trống";
+            $messages["kwh.{$user->id}.numeric"] = "Số điện của người dùng {$user->name} phải là số";
+            $messages["kwh.{$user->id}.min"] = "Số điện của người dùng {$user->name} phải lớn hơn hoặc bằng 0";
+        }
+
+        $validator = Validator::make($request->all(), $rules,$messages);
+        if ($validator->fails()) {
+            return redirect('/kwh')->withErrors($validator);
+        }
         $kwhData = $request->input('kwh');
         foreach ($kwhData as $userId => $kwh){
             $econ = EConsumption::where('uid', $userId)->first();
@@ -77,6 +93,47 @@ class AdminController extends Controller
     }
     public function updatecost(Request $request){
         $ecost = new Ecost();
+        $messages = [
+            'c1.required' => 'Số điện bậc 1 không được để trống',
+            'c1.numeric' => 'Số điện phải là số',
+            'c1.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+            
+            'c2.required' => 'Số điện bậc 2 không được để trống',
+            'c2.numeric' => 'Số điện phải là số',
+            'c2.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+            
+            'c3.required' => 'Số điện bậc 3 không được để trống',
+            'c3.numeric' => 'Số điện phải là số',
+            'c3.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+            
+            'c4.required' => 'Số điện bậc 4 không được để trống',
+            'c4.numeric' => 'Số điện phải là số',
+            'c4.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+            
+            'c5.required' => 'Số điện bậc 5 không được để trống',
+            'c5.numeric' => 'Số điện phải là số',
+            'c5.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+            
+            'c6.required' => 'Số điện bậc 6 không được để trống',
+            'c6.numeric' => 'Số điện phải là số',
+            'c6.min' => 'Số điện phải lớn hơn hoặc bằng 0',
+        ];
+        
+        $validator = Validator::make($request->input(), [
+            'c1' => 'required|numeric|min:0',
+            'c2' => 'required|numeric|min:0',
+            'c3' => 'required|numeric|min:0',
+            'c4' => 'required|numeric|min:0',
+            'c5' => 'required|numeric|min:0',
+            'c6' => 'required|numeric|min:0',
+        ], $messages);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
+        
         $ecost->c1 = $request->input('c1');
         $ecost->c2 =  $request->input('c2');
         $ecost->c3 =  $request->input('c3');
@@ -90,6 +147,7 @@ class AdminController extends Controller
     public function showbill(){
             $users =  DB::table('users')
             ->join('bills', 'users.id', '=', 'bills.uid')
+            ->where('role','=','user')
             ->select('users.*', 'bills.amount','bills.kwh_used as used','status')
             // ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
             ->get();

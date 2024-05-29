@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use  Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Spatie\FlareClient\View;
+use Illuminate\Support\Facades\Validator;
 
 class calcController extends Controller
 {
@@ -20,10 +21,21 @@ class calcController extends Controller
         return view('calc',compact('c1','c2','c3','c4','c5','c6'));
     }
     public function calc(Request $request) {
-        $request->validate([
-            'kWh' => 'required|numeric|min:0',
-        ]);
 
+        $messages = [
+            'kWh.required' => 'Không được để trống số điện',
+            'kWh.numeric' => 'Số điện phải là số',
+            'kWh.min' => 'Số điện phải là số dương',
+        ];
+        $validator = Validator::make($request->input(), [
+            'kWh' => 'required|numeric|min:0',
+        ],$messages);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
         $kWh = $request->input('kWh');
         $l1 = $l2 = $l3 = $l4 = $l5 = $l6 = $cost = $total = $tax = 0;
         $ecost = Ecost::latest()->first();
