@@ -1,5 +1,14 @@
 @extends('template')
 @section('content')
+@if ($errors->any())
+        <div class="alert alert-danger" style="text-align: center">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 <form action="/search" class="search-form" method="post">
     @csrf
     <input type="text" name="querry" class="search" placeholder="Nhập mã khách hàng">

@@ -63,7 +63,7 @@ class calcController extends Controller
         }
 
         $cost = $l1 * $c1 + $l2 * $c2 + $l3 * $c3 + $l4 * $c4 + $l5 * $c5 + $l6 * $c6;
-        $tax = $cost * 0.1;
+        $tax = round($cost * 0.1, 3);
         $total = round($tax + $cost, 3);
 
         return view('calc', compact('kWh','total', 'cost','tax','l1','l2','l3','l4','l5','l6','c1','c2','c3','c4','c5','c6'));
@@ -74,6 +74,20 @@ class calcController extends Controller
         return view('cost',compact('c1','c2','c3','c4','c5','c6'));
     }
     public function search(Request $request){
+        $messages = [
+            'querry.required' => 'Không được để trống mã khách hàng',
+            'querry.string' => 'Mã khách hàng phải là chuỗi',
+            'querry.size' => 'Mã khách hàng phải là chuỗi có 7 ký tự',
+        ];
+        $validator = Validator::make($request->input(), [
+            'querry' => 'required|string|size:7',
+        ],$messages);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
         $querry = $request->input('querry');
         $re = DB::table('users')
         ->join('eConsumptions', 'users.id', '=', 'eConsumptions.uid')
@@ -149,8 +163,8 @@ class calcController extends Controller
         }
 
         $cost = $l1 * $c1 + $l2 * $c2 + $l3 * $c3 + $l4 * $c4 + $l5 * $c5 + $l6 * $c6;
-        $tax = $cost * 1.1;
-        $total = round($tax, 3);
+        $tax = round($cost * 0.1, 3);
+        $total = round($tax + $cost, 3);
 
         return $total;
     }

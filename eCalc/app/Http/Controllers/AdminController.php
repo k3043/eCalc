@@ -67,7 +67,7 @@ class AdminController extends Controller
         $messages = [];
 
         foreach ($users as $user) {
-            $rules["kwh.{$user->id}"] = 'required|numeric|min:0';
+            $rules["kwh.{$user->id}"] ='required|numeric|min:0';
             $messages["kwh.{$user->id}.required"] = "Số điện của người dùng {$user->name} không được để trống";
             $messages["kwh.{$user->id}.numeric"] = "Số điện của người dùng {$user->name} phải là số";
             $messages["kwh.{$user->id}.min"] = "Số điện của người dùng {$user->name} phải lớn hơn hoặc bằng 0";
