@@ -92,7 +92,6 @@ class calcController extends Controller
         ->join('eConsumptions', 'users.id', '=', 'eConsumptions.uid')
         ->select('users.name as name','users.cus_code as code', 'eConsumptions.econ as econ', 'eConsumptions.updated_at as at')
         ->where('cus_Code','=',$querry)
-        ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
         // ->where('year','=',date('Y'))
         ->first();
         $result = $re;
