@@ -1,24 +1,23 @@
 <?php
+
+namespace Tests\Unit\Http\Controllers;
+
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\EConsumption;
 use App\Models\Ecost;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Auth;
+
 class ShowCostTest extends TestCase
 {
     public function testTc051()
-    { 
-    $ecost = Ecost::latest()->first(); 
-    $response = $this->get('/showcost');
-    $response->assertStatus(200);
-    $response->assertViewHas('ecost', function ($viewEcost) use ($ecost) {
-        return $viewEcost->c1 === $ecost->c1 &&
-               $viewEcost->c2 === $ecost->c2 &&
-               $viewEcost->c3 === $ecost->c3 &&
-               $viewEcost->c4 === $ecost->c4 &&
-               $viewEcost->c5 === $ecost->c5 &&
-               $viewEcost->c6 === $ecost->c6;
-    });
+    {
+        // Lấy bản ghi Ecost mới nhất
+        $ecost = Ecost::latest()->first(); 
+        $response = $this->get('/cost');
+        $response->assertStatus(200);
+        $response->assertViewHas('c1',$ecost->c1)
+        ->assertViewHas('c2',$ecost->c2)
+        ->assertViewHas('c3',$ecost->c3)
+        ->assertViewHas('c4',$ecost->c4)
+        ->assertViewHas('c5',$ecost->c5)
+        ->assertViewHas('c6',$ecost->c6);
     }
 }

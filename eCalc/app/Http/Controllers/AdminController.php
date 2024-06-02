@@ -60,39 +60,51 @@ class AdminController extends Controller
         } else {
             return redirect('/login'); 
         }
+        
     }
     public function updatekwh(Request $request){
-        $users = User::where('role','user')->get();
-        $rules = [];
-        $messages = [];
-
-        foreach ($users as $user) {
-            $rules["kwh.{$user->id}"] ='required|numeric|min:0';
-            $messages["kwh.{$user->id}.required"] = "Số điện của người dùng {$user->name} không được để trống";
-            $messages["kwh.{$user->id}.numeric"] = "Số điện của người dùng {$user->name} phải là số";
-            $messages["kwh.{$user->id}.min"] = "Số điện của người dùng {$user->name} phải lớn hơn hoặc bằng 0";
-        }
-
-        $validator = Validator::make($request->all(), $rules,$messages);
-        if ($validator->fails()) {
-            return redirect('/kwh')->withErrors($validator);
-        }
-        $kwhData = $request->input('kwh');
-        foreach ($kwhData as $userId => $kwh){
-            $econ = EConsumption::where('uid', $userId)->first();
-            if ($econ) {
-                $econ->econ = $kwh;
-                $econ->save();
+        if (Auth::check()&& Auth::user()->role=='admin') {
+            $users = User::where('role','user')->get();
+            $rules = [];
+            $messages = [];
+    
+            foreach ($users as $user) {
+                $rules["kwh.{$user->id}"] ='required|numeric|min:0';
+                $messages["kwh.{$user->id}.required"] = "Số điện của người dùng {$user->name} không được để trống";
+                $messages["kwh.{$user->id}.numeric"] = "Số điện của người dùng {$user->name} phải là số";
+                $messages["kwh.{$user->id}.min"] = "Số điện của người dùng {$user->name} phải lớn hơn hoặc bằng 0";
             }
+    
+            $validator = Validator::make($request->all(), $rules,$messages);
+            if ($validator->fails()) {
+                return redirect('/kwh')->withErrors($validator);
+            }
+            $kwhData = $request->input('kwh');
+            foreach ($kwhData as $userId => $kwh){
+                $econ = EConsumption::where('uid', $userId)->first();
+                if ($econ) {
+                    $econ->econ = $kwh;
+                    $econ->save();
+                }
+            }
+            return redirect('/kwh');
+        } else {
+            return redirect('/login'); 
         }
-        return redirect('/kwh');
+      
     }
     public function showcost(){
-        $ecost = Ecost::latest()->first();
-        return view('update_cost',compact('ecost'));
+        if (Auth::check()&& Auth::user()->role=='admin') {
+            $ecost = Ecost::latest()->first();
+            return view('update_cost',compact('ecost'));
+        } else {
+            return redirect('/login'); 
+        }
+        
     }
     public function updatecost(Request $request){
-        $ecost = new Ecost();
+        if (Auth::check()&& Auth::user()->role=='admin') {
+            $ecost = new Ecost();
         $messages = [
             'c1.required' => 'Số điện bậc 1 không được để trống',
             'c1.numeric' => 'Số điện phải là số',
@@ -142,9 +154,14 @@ class AdminController extends Controller
         $ecost->c6 =  $request->input('c6');
         $ecost->save();
         return redirect('/showcost');
+        } else {
+            return redirect('/login'); 
+        }
+        
     }
 
     public function showbill(){
+        if (Auth::check()&& Auth::user()->role=='admin') {
             $users =  DB::table('users')
             ->join('bills', 'users.id', '=', 'bills.uid')
             ->where('role','=','user')
@@ -152,6 +169,10 @@ class AdminController extends Controller
             // ->where('period','>',Carbon::now()->subMonths(1)->endOfMonth())
             ->get();
         return view('bill',compact('users'));
+        } else {
+            return redirect('/login'); 
+        }
+            
     }
     public function closebill(){
         $users = User::where('role','user')->get();

@@ -65,7 +65,6 @@ class calcController extends Controller
         $cost = $l1 * $c1 + $l2 * $c2 + $l3 * $c3 + $l4 * $c4 + $l5 * $c5 + $l6 * $c6;
         $tax = round($cost * 0.1, 3);
         $total = round($tax + $cost, 3);
-
         return view('calc', compact('kWh','total', 'cost','tax','l1','l2','l3','l4','l5','l6','c1','c2','c3','c4','c5','c6'));
     }
     public function showcost(){
